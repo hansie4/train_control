@@ -8,9 +8,10 @@ layout = [  [
                 [sg.Button('Ring Bell')],
                 [sg.Button('Start')],
                 [sg.Button('Accelerate')],
-                [sg.Button('Move')],
                 [sg.Button('Decelerate')],
-                [sg.Button('Stop Train')]
+                [sg.Button('Stop Train')],
+                [sg.Button('Brake')],
+                [sg.Button('Horn')]
             ]
         ]
 
@@ -40,23 +41,27 @@ while True:
         print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
     elif event == 'Start':
         print('Start')
-        output = "111111100000101110011101"
+        output = "111111100000101111100001"
         print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
     elif event == 'Accelerate':
         print('Accelerate')
-        output = "111111100000101110011101"
-        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
-    elif event == 'Move':
-        print('Move')
-        output = "111111100000101110011101"
+        output = "111111100000101111000110"
         print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
     elif event == 'Decelerate':
         print('Decelerate')
-        output = "111111100000101110011101"
+        output = "111111100000101111000100"
         print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
     elif event == 'Stop Train':
         print('Stop Train')
-        output = "111111100000101110011101"
+        output = "111111100000101111100000"
+        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
+    elif event == 'Brake':
+        print('Brake')
+        output = "111111100000101110000111"
+        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
+    elif event == 'Horn':
+        print('Horn')
+        output = "111111100000101110011100"
         print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
 
 
