@@ -33,7 +33,7 @@ while True:
         print(returnVal)
     elif event == 'Start':
         print('Start')
-        returnVal = sp.call(["./Controller.exe", "start"])
+        returnVal = sp.run(["./Controller.exe", "start"])
         if(returnVal == 0):
             window["status"].update("Success")
         else:
@@ -41,7 +41,7 @@ while True:
         print(returnVal)
     elif event == 'Accelerate':
         print('Accelerate')
-        returnVal = sp.call(["./Controller.exe", "acc"])
+        returnVal = sp.run(["./Controller.exe", "acc"])
         if(returnVal == 0):
             window["status"].update("Success")
         else:
@@ -49,7 +49,7 @@ while True:
         print(returnVal)
     elif event == 'Move':
         print('Move')
-        returnVal = sp.call(["./Controller.exe", "move"])
+        returnVal = sp.run(["./Controller.exe", "move"])
         if(returnVal == 0):
             window["status"].update("Success")
         else:
@@ -57,7 +57,7 @@ while True:
         print(returnVal)
     elif event == 'Decelerate':
         print('Decelerate')
-        returnVal = sp.call(["./Controller.exe", "dec"])
+        returnVal = sp.run(["./Controller.exe", "dec"])
         if(returnVal == 0):
             window["status"].update("Success")
         else:
@@ -65,7 +65,7 @@ while True:
         print(returnVal)
     elif event == 'Stop Train':
         print('Stop Train')
-        returnVal = sp.call(["./Controller.exe", "stop"])
+        returnVal = sp.run(["./Controller.exe", "stop"])
         if(returnVal == 0):
             window["status"].update("Success")
         else:

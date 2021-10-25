@@ -13,9 +13,55 @@ int main(int argc, char *argv[])
     //TODO
     // CHANGE BYTES TO SEND BASED ON argv[1]
 
-    printf(argv[1]);
-    printf("Press key to continue: ");
-    getch();
+    // printf(argv[1]);
+    // printf("\n");
+    // printf("Press key to continue: ");
+    // getch();
+
+    if (strcmp(argv[1], "ring"))
+    {
+        // Ring the bell
+        // 11AAAAAAACCDDDDD
+        // 1100101110011101 assuming train id #23
+        bytes_to_send[1] = 0xcb;
+        bytes_to_send[2] = 0x9d;
+    }
+    else if (strcmp(argv[1], "start"))
+    {
+        // Start the train
+        // 11AAAAAAACCDDDDD
+        // 1100101111100001 assuming train id #23
+        bytes_to_send[1] = 0xcb;
+        bytes_to_send[2] = 0xe1;
+    }
+    else if (strcmp(argv[1], "acc"))
+    {
+        // Accelerate the train
+        // 11AAAAAAACCDDDDD
+        // 1100101111000110 assuming train id #23
+        bytes_to_send[1] = 0xcb;
+        bytes_to_send[2] = 0xc6;
+    }
+    else if (strcmp(argv[1], "move"))
+    {
+        // Move the train
+    }
+    else if (strcmp(argv[1], "dec"))
+    {
+        // Decelerate the train
+        // 11AAAAAAACCDDDDD
+        // 1100101111000100 assuming train id #23
+        bytes_to_send[1] = 0xcb;
+        bytes_to_send[2] = 0xc4;
+    }
+    else if (strcmp(argv[1], "stop"))
+    {
+        // Stop the train
+        // 11AAAAAAACCDDDDD
+        // 1100101111100000 assuming train id #23
+        bytes_to_send[1] = 0xcb;
+        bytes_to_send[2] = 0xe0;
+    }
 
     // Declare variables and structures
     HANDLE hSerial;
