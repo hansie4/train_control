@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     // Open the highest available serial port number
     fprintf(stderr, "Opening serial port...");
     hSerial = CreateFile(
-        "\\\\.\\COM22", GENERIC_READ | GENERIC_WRITE, 0, NULL,
+        "\\\\.\\COM1", GENERIC_READ | GENERIC_WRITE, 0, NULL,
         OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     if (hSerial == INVALID_HANDLE_VALUE)
     {
