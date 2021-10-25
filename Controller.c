@@ -21,46 +21,53 @@ int main(int argc, char *argv[])
     if (strcmp(argv[1], "ring"))
     {
         // Ring the bell
-        // 11AAAAAAACCDDDDD
-        // 1100101110011101 assuming train id #23
-        bytes_to_send[1] = 0xcb;
+        // 00AAAAAAACCDDDDD
+        // 000010111 0011101 assuming train id #23
+        bytes_to_send[1] = 0x0b;
         bytes_to_send[2] = 0x9d;
     }
     else if (strcmp(argv[1], "start"))
     {
         // Start the train
-        // 11AAAAAAACCDDDDD
-        // 1100101111100001 assuming train id #23
-        bytes_to_send[1] = 0xcb;
-        bytes_to_send[2] = 0xe1;
+        // 00AAAAAAACCDDDDD
+        // 000010111 0000100 assuming train id #23,engine boost i suppose.
+        bytes_to_send[1] = 0x0b;
+        bytes_to_send[2] = 0x84;
     }
     else if (strcmp(argv[1], "acc"))
     {
         // Accelerate the train
-        // 11AAAAAAACCDDDDD
-        // 1100101111000110 assuming train id #23
-        bytes_to_send[1] = 0xcb;
+        // 00AAAAAAACCDDDDD
+        // 0000101111000110 assuming train id #23, accelerate the train by 1(5= no change, 5+1=6)
+        bytes_to_send[1] = 0x0b;
         bytes_to_send[2] = 0xc6;
     }
     else if (strcmp(argv[1], "move"))
     {
         // Move the train
+        //00AAAAAAACCDDDDD
+        //Not sure yet.
+        
     }
     else if (strcmp(argv[1], "dec"))
     {
         // Decelerate the train
-        // 11AAAAAAACCDDDDD
-        // 1100101111000100 assuming train id #23
-        bytes_to_send[1] = 0xcb;
+        // 00AAAAAAACCDDDDD
+        // 0000101111000100 assuming train id #23,deceleration by 1(5-1=4)
+        bytes_to_send[1] = 0x0b;
         bytes_to_send[2] = 0xc4;
     }
     else if (strcmp(argv[1], "stop"))
     {
         // Stop the train
-        // 11AAAAAAACCDDDDD
-        // 1100101111100000 assuming train id #23
-        bytes_to_send[1] = 0xcb;
-        bytes_to_send[2] = 0xe0;
+        // 00AAAAAAACCDDDDD
+        // 000010111 1100000 assuming train id #23,setting absolute speed to 0 is also reasonable.
+        //bytes_to_send[1] = 0x0b;
+        //bytes_to_send[2] = 0xe0;
+        //00AAAAAAACCDDDDD
+        //000010111 0000111 engine brake also works?
+        bytes_to_sent[1] = 0x0b;
+        bytes_to_sent[2] = 0x87;
     }
 
     // Declare variables and structures
