@@ -1,5 +1,5 @@
 @echo off
-SET filename=./dist/GUI/GUI.exe
+SET filename=./dist/train_control/train_control.exe
 if exist %filename% (
     start %filename%
 ) else (
