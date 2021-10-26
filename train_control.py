@@ -2,59 +2,89 @@ import PySimpleGUI as sg
 import subprocess as sp
 import serial
 
-# Create the GUI
-sg.theme('SystemDefault')
-layout = [  [
-                [sg.Button('Ring Bell')],
-                [sg.Button('Horn')],
-                [sg.Button('Start')],
-                [sg.Button('Brake')],
-                [sg.Button('Accelerate')],
-                [sg.Button('Decelerate')]
-            ]
-        ]
+runFlag = False # flag for execution
 
-window = sg.Window('Train Control', layout)
+# Commands
+ringbell = "111111100000101110011101"
+horn = "111111100000101110011100"
+start = "111111100000101111100011"
+trainBrake = "111111100000101110000111"
+boost = "111111100000101110000100"
+trainAcc = "111111100000101111001000"
+trainDec = "111111100000101111000010"
+toggleDir = "111111100000101110000001"
+stop = "111111100000101111100000"
 
 # Open port for serial communication
-ser = serial.Serial(
-                        port="COM1",
-                        baudrate=9600,
-                        bytesize= serial.EIGHTBITS,
-                        parity=serial.PARITY_NONE,
-                        stopbits=serial.STOPBITS_ONE
-                    )
+try:
+    ser = serial.Serial(
+                            port="COM1",
+                            baudrate=9600,
+                            bytesize= serial.EIGHTBITS,
+                            parity=serial.PARITY_NONE,
+                            stopbits=serial.STOPBITS_ONE
+                        )
+    runFlag = True
+except:
+    print("Could not connect to port COM1")
+    input("Press enter to continue...")
 
-print("Port: ", ser.port)
+if runFlag:
 
-def sendCommand(command):
-    print("Bytes written: ",ser.write(int(command, 2).to_bytes(len(command) // 8, byteorder='big')), " ", command)
+    print("Port: ", ser.port)
 
-# Event Loop to process "events" and get the "values" of the inputs
-while True:
-    event, values = window.read()
-    if event == sg.WIN_CLOSED: # if user closes window or clicks cancel
-        break
-    elif event == 'Ring Bell':
-        print('Ringing Bell...')
-        sendCommand("111111100000101110011101")
-    elif event == 'Start':
-        print('Start')
-        sendCommand("111111100000101111100011")
-    elif event == 'Accelerate':
-        print('Accelerate')
-        sendCommand("111111100000101110000100") # boost
-        sendCommand("111111100000101111001000")
-    elif event == 'Decelerate':
-        print('Decelerate')
-        sendCommand("111111100000101111000010")
-    elif event == 'Brake':
-        print('Brake')
-        sendCommand("111111100000101110000111")
-    elif event == 'Horn':
-        print('Horn')
-        sendCommand("111111100000101110011100")
+    # Create the GUI
+    sg.theme('SystemDefault')
+    layout = [  [
+                    [sg.Button('Ring Bell'), sg.Text('Toggles bell')],
+                    [sg.Button('Horn'), sg.Text('Sounds horn')],
+                    [sg.Button('Start'), sg.Text('Starts engine at low speed')],
+                    [sg.Button('Brake'), sg.Text('Taps the brakes')],
+                    [sg.Button('Accelerate'), sg.Text('Accelerates the train')],
+                    [sg.Button('Decelerate'), sg.Text('Decelerates the train')],
+                    [sg.Button('Toggle Direction'), sg.Text('Toggeles train direction')],
+                    [sg.Button('Stop'), sg.Text('Stops the train')]
+                ]
+            ]
+
+    window = sg.Window('Train Control', layout, resizable=True, size=(300,300))
+
+    def sendCommand(command):
+        print("Bytes written: ",ser.write(int(command, 2).to_bytes(len(command) // 8, byteorder='big')), " ", command)
+
+    # Event Loop to process "events" and get the "values" of the inputs
+    while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED: # if user closes window or clicks cancel
+            break
+        # Writing commands for each button press
+        elif event == 'Ring Bell':
+            print('Ringing Bell...')
+            sendCommand(ringbell)
+        elif event == 'Start':
+            print('Start')
+            sendCommand(start)
+        elif event == 'Accelerate':
+            print('Accelerate')
+            sendCommand(boost) # boost
+            sendCommand(trainAcc)
+        elif event == 'Decelerate':
+            print('Decelerate')
+            sendCommand(trainDec)
+        elif event == 'Brake':
+            print('Brake')
+            sendCommand(trainBrake)
+        elif event == 'Horn':
+            print('Horn')
+            sendCommand(horn)
+        elif event == 'Toggle Direction':
+            print('Toggle Direction')
+            sendCommand(toggleDir)
+            sendCommand(start)
+        elif event == 'Stop':
+            print('Stopping')
+            sendCommand(stop)
 
 
-ser.close()
-window.close()
+    ser.close()
+    window.close()
