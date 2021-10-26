@@ -2,22 +2,21 @@ import PySimpleGUI as sg
 import subprocess as sp
 import serial
 
-sg.theme('SystemDefault')   # Add a touch of color
-# All the stuff inside your window.
+# Create the GUI
+sg.theme('SystemDefault')
 layout = [  [
                 [sg.Button('Ring Bell')],
+                [sg.Button('Horn')],
                 [sg.Button('Start')],
-                [sg.Button('Accelerate')],
-                [sg.Button('Decelerate')],
-                [sg.Button('Stop Train')],
                 [sg.Button('Brake')],
-                [sg.Button('Horn')]
+                [sg.Button('Accelerate')],
+                [sg.Button('Decelerate')]
             ]
         ]
 
-# Create the Window
 window = sg.Window('Train Control', layout)
 
+# Open port for serial communication
 ser = serial.Serial(
                         port="COM1",
                         baudrate=9600,
@@ -28,7 +27,8 @@ ser = serial.Serial(
 
 print("Port: ", ser.port)
 
-output = "111111100000101110011101"
+def sendCommand(command):
+    print("Bytes written: ",ser.write(int(command, 2).to_bytes(len(command) // 8, byteorder='big')), " ", command)
 
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
@@ -37,32 +37,23 @@ while True:
         break
     elif event == 'Ring Bell':
         print('Ringing Bell...')
-        output = "111111100000101110011101"
-        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
+        sendCommand("111111100000101110011101")
     elif event == 'Start':
         print('Start')
-        output = "111111100000101111100001"
-        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
+        sendCommand("111111100000101111100011")
     elif event == 'Accelerate':
         print('Accelerate')
-        output = "111111100000101111000110"
-        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
+        sendCommand("111111100000101110000100") # boost
+        sendCommand("111111100000101111001000")
     elif event == 'Decelerate':
         print('Decelerate')
-        output = "111111100000101111000100"
-        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
-    elif event == 'Stop Train':
-        print('Stop Train')
-        output = "111111100000101111100000"
-        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
+        sendCommand("111111100000101111000010")
     elif event == 'Brake':
         print('Brake')
-        output = "111111100000101110000111"
-        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
+        sendCommand("111111100000101110000111")
     elif event == 'Horn':
         print('Horn')
-        output = "111111100000101110011100"
-        print("Bytes written: ",ser.write(int(output, 2).to_bytes(len(output) // 8, byteorder='big')), " ", output)
+        sendCommand("111111100000101110011100")
 
 
 ser.close()
