@@ -1,8 +1,16 @@
 Double click RUN_TRAIN_CONTROL to run.
 
-I use pyinstaller to make the python code into and executable.
+Made with python3
 
-Command:
-pyinstaller -y GUI.py
+Libraries used:
+- pysimplegui 4.53.0
+- pyserial 3.5
+- pyinstaller 5.0.dev0
+- pyinstaller-hooks-contrib 2021.3
 
-* ATM I have to copy Controller.exe to dist/GUI/ for it to run by maybe one of you can make it so that it gets Controller.exe from the root directory.
+The program should be able to run on any windows machine even in python is not installed
+
+If RUN_TRAIN_CONTROL.exe does not run the file then run the train_control.exe in the dist/train_control folder
+
+Program communicates over COM1
+
